@@ -1,29 +1,21 @@
 #ifndef screen_h
 #define screen_h
-#inlcude "serial_cluster"
+#inlcude "serial_cluster_block.h"
+#define MAX_NUM_OF_CLUSTERS 5
 class screen{
+	static screen theScreen;
 	private:
-	static int s_dim;
-	static int s_numOfParall;
-		
-	pixelData** m_data[NUM_OF_DIRECTIONS];
-	direction m_curDirection;
-	
-	static bool turn90_comp(pixelData** source,pixelData** dest);
-	static void setDim(int dim);
-	static void setPara(int para);
-	
-	bool turn90();
-	
+	int m_numOfClusters;
+	serial_cluster_block* m_clusters[MAX_NUM_OF_CLUSTERS];
+	screen();
 	public:
-	block();
-	//block(const block& b);
-	~block();
-	//Assumption : b.rows = this.rows , b.cols = this.cols
-	//block& operator=(const block& b);
-	//bool turnData(direction wantedDirection);
-	pixelData** getData(direction d);
-	bool setData_copy(pixelData** d);
-	bool setData_noCopy(pixelData** d);
+	void addPicture(coord pos);
+	void cleanScreen();
+	//void init(coord dim);
+	//void setCluster(int idx,serial_cluster_block* cluster);
+	void addCluster(serial_cluster_block* cluster);
+	static screen* getInstance();
+	
+	
 }
 #endif

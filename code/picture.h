@@ -3,15 +3,13 @@
 #include "block.h"
 class picture{
 	private:
-	int m_num_block_rows;
-	int m_num_block_cols;
+	coord picSize;
 	block** m_blocks;
 	public:
 	picture(coord dim, pixelData** d);
 	~picture();
 	block** getData();
 //	block* getBlock(int i,int j);
-	int getNumOfRows();
-	int getNumOfCols();
+	coord getPicSize();
 }
 #endif

@@ -16,10 +16,16 @@ serial_cluster_block::serial_cluster_block(int num_of_blocks,direction* d)
 	}
 		
 }
+
 serial_cluster_block::~serial_cluster_block()
 {
-	delete[] m_blocks;
+	delete[] m_ref_blocks;
 	delete[] direction;
+}
+void serial_cluster_block::clean()
+{
+	for(int i=0;i<m_num_of_blocks;i++)
+		m_ref_blocks[i].clean();
 }
 int serial_cluster_block::getRectangleDim()
 {
