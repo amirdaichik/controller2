@@ -8,6 +8,7 @@ static void block::setPara(int para)
 {
 	s_numOfParall = para;
 }
+
 block::block()
 {
 	for(int i=0;i<NUM_OF_DIRECTIONS;i++)
@@ -25,8 +26,9 @@ block::block()
 			}
 		}
 	}
-	m_curData = m_data[RIGHT];
+//	m_curData = m_data[RIGHT];
 }
+/*
 block::block(const block& b)
 {
 	m_curDirection = b.m_curDirection
@@ -46,6 +48,7 @@ block::block(const block& b)
 		}
 	}
 }
+*/
 block::~block()
 {
 	for(int i=0;i<NUM_OF_DIRECTIONS;i++)
@@ -54,6 +57,7 @@ block::~block()
 		delete[] m_data[i];
 	}
 }
+/*
 block& block::operator=(const block& b)
 {
 	m_curDirection = b.m_curDirection;
@@ -71,6 +75,7 @@ block& block::operator=(const block& b)
 	}
 	return this;
 }
+
 bool block::turnData(direction wantedDirection)
 {
 	bool wasTurned = false;
@@ -83,6 +88,7 @@ bool block::turnData(direction wantedDirection)
 	m_curDirection = wantedDirection;
 	return wasTurned;
 }
+*/
 static bool block::turn90_comp(pixelData** source,pixelData** dest,int s_dim)
 {
 	pixelData** tmpBlock;
@@ -121,15 +127,18 @@ static bool block::turn90_comp(pixelData** source,pixelData** dest,int s_dim)
 		delete[] tmpBlock;
 	}
 }
+/*
 bool block::turn90()
 {
 	m_curDirection = (m_curDirection+1)%NUM_OF_DIRECTIONS;
 }
+*/
 bool block::setData_noCopy(pixelData** d)
 {
 	m_data[RIGHT] = d;
 	adjust_m_data();
 }
+
 bool block::setData_Copy(pixelData** d,int startX,int startY)
 {
 	for(int i=0;i<s_dim;i++)
@@ -150,7 +159,12 @@ void block::adjust_m_data()
 		turn90_comp(m_data[i-1],m_data[i],s_dim);	
 	}
 }
-pixelData** block::getData()
+/*pixelData** block::getData()
 {
 	return m_data[m_curDirection];
+}
+*/
+pixeldata** block::getData(direction d)
+{
+	return m_data[d];
 }

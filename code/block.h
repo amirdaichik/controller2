@@ -11,13 +11,7 @@ class block{
 	private:
 	static int s_dim;
 	static int s_numOfParall;
-	
-	
-	block* m_myUp;
-	block* m_myDown;
-	block* m_myRight;
-	block* m_myLeft;
-	
+		
 	pixelData** m_data[NUM_OF_DIRECTIONS];
 	direction m_curDirection;
 	
@@ -29,12 +23,12 @@ class block{
 	
 	public:
 	block();
-	block(const block& b);
+	//block(const block& b);
 	~block();
 	//Assumption : b.rows = this.rows , b.cols = this.cols
-	block& operator=(const block& b);
-	bool turnData(direction wantedDirection);
-	pixelData** getData();
+	//block& operator=(const block& b);
+	//bool turnData(direction wantedDirection);
+	pixelData** getData(direction d);
 	bool setData_copy(pixelData** d);
 	bool setData_noCopy(pixelData** d);
 }
