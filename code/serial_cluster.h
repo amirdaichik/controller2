@@ -1,4 +1,4 @@
-class serial_cluster_block_fixed
+class serial_cluster_block
 {
 	// The serial cluster will know its dim and it can send it to the screen(can be calculated at the constructor)
 	// When the screen wants to add a picture, it will send the pointer to the picture and the offset in the picture

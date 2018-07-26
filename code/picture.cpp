@@ -18,6 +18,14 @@ picture::picture(coord picSize, pixelData** d)
 	//delete[] d[0];
 	//delete[] d; 
 }
+bool picture::isValidPos(coord pos)
+{
+	if(pos.row<0 || pos.row >= m_picSize.row)
+		return false;
+	if(pos.col<0 || pos.col >= m_picSize.col)
+		return false;
+	return true;
+}
 picture::~picture();
 {
 	delete[] m_blocks[0];
