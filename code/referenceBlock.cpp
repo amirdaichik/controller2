@@ -1,18 +1,23 @@
+//
+// Created by amirdaichik on 26/07/2018.
+//
+
 #include "referenceBlock.h"
-//This class will keep the relevant data from the block in the relevant direction only.
+#include <stddef.h>
+
 referenceBlock::referenceBlock()
 {
-	m_data = NULL;
+    m_data = NULL;
 }
-void referenceBlock::setData(block *b,direction d)
+void referenceBlock::setData(pixelData** data)
 {
-	m_data = b.getData(d);
+    m_data = data;
 }
 void referenceBlock::clean()
 {
-	m_data = NULL;
+    m_data = NULL;
 }
 pixelData** referenceBlock::getData() // CAN BE NULL
 {
-	return m_data;
+    return m_data;
 }

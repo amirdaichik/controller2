@@ -1,15 +1,22 @@
-#ifndef picture_h
-#define picture_h
+//
+// Created by amirdaichik on 26/07/2018.
+//
+
+#ifndef PROJECT_PICTURE_H
+#define PROJECT_PICTURE_H
 #include "block.h"
 class picture{
-	private:
-	coord picSize;
-	block** m_blocks;
-	public:
-	picture(coord dim, pixelData** d);
-	~picture();
-	block** getData();
+private:
+    coord m_picSize;
+    block** m_blocks;
+public:
+    picture(coord dim, pixelData** d);
+    ~picture();
+    block** getData();
 //	block* getBlock(int i,int j);
-	coord getPicSize();
-}
-#endif
+    coord getPicSize();
+    bool isValidPos(coord pos);
+};
+
+
+#endif //PROJECT_PICTURE_H
