@@ -1,18 +1,18 @@
 #include "picture.h"
-picture::picture(int num_block_rows,int num_block_cols, pixelData** d)
+picture::picture(coord picSize, pixelData** d)
 {
-	m_num_block_rows = num_block_rows;
-	m_num_block_cols = num_block_cols;
+	m_picSize.row = picSize.row;
+	m_picSize.col = picSize.col;
 	
-	m_blocks = new *block[num_block_rows];
-	m_blocks[0] = new block[num_block_rows*num_block_cols];
+	m_blocks = new *block[picSize.row];
+	m_blocks[0] = new block[picSize.row*picSize.col];
 	int dim = block::getDim();
-	for(int i=0;i<num_block_rows;i++)
+	for(int i=0;i<picSize.row;i++)
 	{
-		m_blocks[i] = m_blocks[0] + i*num_block_rows;
-		for(int j=0;j<num_block_cols)
+		m_blocks[i] = m_blocks[0] + i*picSize.row;
+		for(int j=0;j<picSize.col)
 		{
-			m_blocks[i][j].setData_Copy(d,dim*i,dim*j)
+			m_blocks[i][j].setData_Copy(d,dim*i,dim*j);
 		}
 	}
 	//delete[] d[0];
@@ -20,10 +20,7 @@ picture::picture(int num_block_rows,int num_block_cols, pixelData** d)
 }
 picture::~picture();
 {
-	for(int i=0; i<m_num_block_rows;i++)
-	{
-		delete[] m_blocks[i];
-	}
+	delete[] m_blocks[0];
 	delete[] m_blocks;
 }
 block** picture::getData()
@@ -32,9 +29,9 @@ block** picture::getData()
 }
 int picture::getNumOfRows()
 {
-	return m_num_block_rows;
+	return m_picSize.row;
 }
 int picture::getNumOfCols()
 {
-	return m_num_block_cols;
+	return m_picSize.col;
 }

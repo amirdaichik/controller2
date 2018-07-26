@@ -139,15 +139,15 @@ bool block::setData_noCopy(pixelData** d)
 	adjust_m_data();
 }
 
-bool block::setData_Copy(pixelData** d,int startX,int startY)
+bool block::setData_Copy(pixelData** d,coord start)
 {
 	for(int i=0;i<s_dim;i++)
 	{
 		for(int j=0;j<s_dim;j++)
 		{
-			m_data[RIGHT][i][j].r = d[startY+i][startX+j].r;
-			m_data[RIGHT][i][j].g = d[startY+i][startX+j].g;
-			m_data[RIGHT][i][j].b = d[startY+i][startX+j].b;
+			m_data[RIGHT][i][j].r = d[start.row+i][start.col+j].r;
+			m_data[RIGHT][i][j].g = d[start.row+i][start.col+j].g;
+			m_data[RIGHT][i][j].b = d[start.row+i][start.col+j].b;
 		}
 	}
 	adjust_m_data();

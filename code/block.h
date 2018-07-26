@@ -6,6 +6,10 @@ struct pixelData{
 	char g;
 	char b;
 }
+struct coord{
+	int row;
+	int col;
+}
 typedef enum direction{RIGHT=0,DOWN=1,LEFT=2,UP=3} direction;
 class block{
 	private:
