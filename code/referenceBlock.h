@@ -14,6 +14,7 @@ public:
     void setData(pixelData** d);
     pixelData** getData();
     void clean();
+    void print();
 };
 
 #endif //PROJECT_REFERENCEBLOCK_H

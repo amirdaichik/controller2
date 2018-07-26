@@ -2,9 +2,9 @@
 #define block_h
 #define NUM_OF_DIRECTIONS 4
 typedef struct pixelData{
-    char r;
-    char g;
-    char b;
+    int r;
+    int g;
+    int b;
 } pixelData;
 typedef struct coord{
     int row;
@@ -25,6 +25,7 @@ public:
     bool turn90();
     static void test();
 
+
 public:
     static void setDim(int dim);
     static int getDim();
@@ -37,5 +38,7 @@ public:
     pixelData** getData(direction d);
     void setData_copy(pixelData** d,coord start);
     void setData_noCopy(pixelData** d);
+    void printBlock(direction d=RIGHT);
+
 };
 #endif

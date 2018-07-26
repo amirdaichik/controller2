@@ -12,6 +12,7 @@ private:
 public:
     picture(coord dim, pixelData** d);
     ~picture();
+    static void test();
     block** getData();
 //	block* getBlock(int i,int j);
     coord getPicSize();

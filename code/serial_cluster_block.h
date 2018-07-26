@@ -26,6 +26,8 @@ public:
     void clean();
     // posInPic is the offset in the picture of the left upper block in the cluster (being sent by the screen) [Can be negative if the picture is not being drawn in the left upper block]
     void setPicture(picture* pic,coord posInPic);
+    static void test();
+    void print();
 
 };
 
