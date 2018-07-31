@@ -19,6 +19,7 @@ public:
     //void init(coord dim);
     //void setCluster(int idx,serial_cluster_block* cluster);
     void addCluster(serial_cluster_block* cluster);
+	void test();
     static screen* getInstance();
 
 

@@ -5,15 +5,41 @@
 #include <iostream>
 #include "serial_cluster_block.h"
 
-serial_cluster_block::serial_cluster_block(int num_of_blocks,direction* d)
+
+void serial_cluster_block::init(int num_of_blocks,direction* d)
 {
-    m_rectangle_dim.col = 0; // The first block is also being calculated
-    m_rectangle_dim.row = 1; // And we assume that the first block is turning right
-    m_num_of_blocks = num_of_blocks;
-    m_ref_blocks = new referenceBlock[num_of_blocks];
-    m_directions = new direction[num_of_blocks];
+	s_num_of_blocks = num_of_blocks;
+		
+	s_rectangle_dim.col = 0; // The first block is also being calculated
+    s_rectangle_dim.row = 1; // And we assume that the first block is turning right
     direction dimCalcState = RIGHT;
-    for(int i=0;i<num_of_blocks;i++)
+    for(int i=0;i<s_num_of_blocks;i++)
+    {
+        if(d[i] == RIGHT && dimCalcState == RIGHT) {
+            s_rectangle_dim.col++;
+        }
+        else {
+            dimCalcState = DOWN;
+        }
+        if(d[i] == DOWN && dimCalcState == DOWN)
+            s_rectangle_dim.row++;
+        else if(dimCalcState == DOWN)
+            dimCalcState = LEFT;
+        s_directions[i] = d[i];
+    }	
+	
+}
+
+serial_cluster_block::serial_cluster_block()
+{
+    m_ref_blocks = new referenceBlock[s_num_of_blocks];
+
+	/*
+	m_rectangle_dim.col = 0; // The first block is also being calculated
+    m_rectangle_dim.row = 1; // And we assume that the first block is turning right
+	m_directions = new direction[s_num_of_blocks];
+    direction dimCalcState = RIGHT;
+    for(int i=0;i<s_num_of_blocks;i++)
     {
         if(d[i] == RIGHT && dimCalcState == RIGHT) {
             m_rectangle_dim.col++;
@@ -27,12 +53,13 @@ serial_cluster_block::serial_cluster_block(int num_of_blocks,direction* d)
             dimCalcState = LEFT;
         m_directions[i] = d[i];
     }
+    */
 
 }
 void serial_cluster_block::print(){
-    for(int i=0;i<m_num_of_blocks;i++)
+    for(int i=0;i<s_num_of_blocks;i++)
     {
-        std::cout<<"Direction = "<<m_directions[i]<<std::endl;
+        std::cout<<"Direction = "<<s_directions[i]<<std::endl;
         m_ref_blocks[i].print();
     }
 }
@@ -40,7 +67,6 @@ void serial_cluster_block::print(){
 serial_cluster_block::~serial_cluster_block()
 {
     delete[] m_ref_blocks;
-    delete[] m_directions;
 }
 void serial_cluster_block::clean()
 {
@@ -49,17 +75,17 @@ void serial_cluster_block::clean()
 }
 coord serial_cluster_block::getRectangleDim()
 {
-    return m_rectangle_dim;
+    return s_rectangle_dim;
 }
 // posInPic is the offset in the picture of the left upper block in the cluster (being sent by the screen) [Can be negative if the picture is not being drawn in the left upper block]
 void serial_cluster_block::setPicture(picture* pic,coord posInPic)
 {
     block** data = pic->getData();
-    for(int i=0;i<m_num_of_blocks;i++)
+    for(int i=0;i<s_num_of_blocks;i++)
     {
         if(pic->isValidPos(posInPic))
-            m_ref_blocks[i].setData(data[posInPic.row][posInPic.col].getData(m_directions[i]));
-        fixPos(&posInPic,m_directions[i]);
+            m_ref_blocks[i].setData(data[posInPic.row][posInPic.col].getData(s_directions[i]));
+        fixPos(&posInPic,s_directions[i]);
     }
 }
 void serial_cluster_block::fixPos(coord* pos,direction d)
@@ -88,11 +114,16 @@ void serial_cluster_block::fixPos(coord* pos,direction d)
         }
     }
 }
+
+
+
+
 void serial_cluster_block::test()
 {
     block::setDim(4);
     direction direct[] = {RIGHT,RIGHT,RIGHT,DOWN,DOWN,LEFT,LEFT,UP,RIGHT};
-    serial_cluster_block s = serial_cluster_block(9,direct);
+	serial_cluster_block::init(9,direct);
+    serial_cluster_block s = serial_cluster_block();
     coord dim = s.getRectangleDim();
     std::cout<<"dim: ["<<dim.row<<"x"<<dim.col<<"]"<<std::endl;
 
