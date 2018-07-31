@@ -5,11 +5,15 @@
 #include <iostream>
 #include "serial_cluster_block.h"
 
+int serial_cluster_block::s_num_of_blocks;
+coord serial_cluster_block::s_rectangle_dim;
+direction* serial_cluster_block::s_directions;
 
 void serial_cluster_block::init(int num_of_blocks,direction* d)
 {
 	s_num_of_blocks = num_of_blocks;
-		
+	s_directions = new direction[num_of_blocks];
+
 	s_rectangle_dim.col = 0; // The first block is also being calculated
     s_rectangle_dim.row = 1; // And we assume that the first block is turning right
     direction dimCalcState = RIGHT;
@@ -70,7 +74,7 @@ serial_cluster_block::~serial_cluster_block()
 }
 void serial_cluster_block::clean()
 {
-    for(int i=0;i<m_num_of_blocks;i++)
+    for(int i=0;i<s_num_of_blocks;i++)
         m_ref_blocks[i].clean();
 }
 coord serial_cluster_block::getRectangleDim()
@@ -78,14 +82,15 @@ coord serial_cluster_block::getRectangleDim()
     return s_rectangle_dim;
 }
 // posInPic is the offset in the picture of the left upper block in the cluster (being sent by the screen) [Can be negative if the picture is not being drawn in the left upper block]
-void serial_cluster_block::setPicture(picture* pic,coord posInPic)
+void serial_cluster_block::setPicture(picture* pic,coord leftUpperCoordOfClusterRelatedToPic)
 {
     block** data = pic->getData();
     for(int i=0;i<s_num_of_blocks;i++)
     {
-        if(pic->isValidPos(posInPic))
-            m_ref_blocks[i].setData(data[posInPic.row][posInPic.col].getData(s_directions[i]));
-        fixPos(&posInPic,s_directions[i]);
+        if(pic->isValidPos(leftUpperCoordOfClusterRelatedToPic))
+            m_ref_blocks[i].setData(data[leftUpperCoordOfClusterRelatedToPic.row][leftUpperCoordOfClusterRelatedToPic.col].getData(s_directions[i]));
+        if(i<s_num_of_blocks-1)
+            fixPos(&leftUpperCoordOfClusterRelatedToPic,s_directions[i+1]);
     }
 }
 void serial_cluster_block::fixPos(coord* pos,direction d)
@@ -129,23 +134,23 @@ void serial_cluster_block::test()
 
     pixelData** d;
     d = new pixelData*[4];
-    d[0] = new pixelData[4*4];
+    d[0] = new pixelData[4*8];
     for(int i=0;i<4;i++) {
-        d[i] = d[0] + 4*i;
-        for (int j = 0; j < 4; j++) {
-            if (i == 0 || j == 3)
+        d[i] = d[0] + 8*i;
+        for (int j = 0; j < 8; j++) {
+            if (i == 0 || j == 7)
                 d[i][j].r = 5;
             else
                 d[i][j].r = 0;
-            //std::cout<<d[i][j].r<< " ";
+            std::cout << i<<","<<j<<"="<<d[i][j].r <<" add=0x"<<&d[i][j].r<<std::endl;
         }
-        //std::cout<<std::endl;
     }
     coord dataSize;
     dataSize.row = 1;
-    dataSize.col = 1;
-
+    dataSize.col = 2;
+    std::cout<<"Before pic:"<<d[0][4].r<<std::endl;
     picture p = picture(dataSize,d);
+    std::cout<<"After pic:"<<d[0][4].r<<std::endl;
 
     block** b = p.getData();
     dataSize = p.getPicSize();
@@ -160,13 +165,15 @@ void serial_cluster_block::test()
     }
 
     coord posInPic;
-    posInPic.row = 1;
-    posInPic.col = 1;
+    posInPic.row = -1;
+    posInPic.col = 0;
     s.setPicture(&p,posInPic);
+
     /*posInPic.row = 0;
     posInPic.col = 2;
     s.setPicture(&p,posInPic);
      */
+
     std::cout<<"s.print()"<<std::endl;
     s.print();
 

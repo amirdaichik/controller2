@@ -9,6 +9,14 @@ typedef struct pixelData{
 typedef struct coord{
     int row;
     int col;
+    coord(){
+        row =0;
+        col =0;
+    }
+    coord(int r,int c){
+        row = r;
+        col = c;
+    }
 } coord;
 typedef enum direction{RIGHT=0,DOWN=1,LEFT=2,UP=3} direction;
 class block{
@@ -22,7 +30,6 @@ public:
     static void turn90_comp(pixelData** source,pixelData** dest);
     static void setPara(int para);
     void adjust_m_data();
-    bool turn90();
     static void test();
 
 

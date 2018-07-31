@@ -10,16 +10,19 @@ class screen{
     static screen theScreen;
 private:
     int m_numOfClusters;
+    coord m_dim;
     serial_cluster_block* m_clusters[MAX_NUM_OF_CLUSTERS];
     screen();
     ~screen();
 public:
+    coord getDim();
     void addPicture(picture* pic,coord pos);
     void cleanScreen();
     //void init(coord dim);
     //void setCluster(int idx,serial_cluster_block* cluster);
+    void printScreen();
     void addCluster(serial_cluster_block* cluster);
-	void test();
+	static void test();
     static screen* getInstance();
 
 

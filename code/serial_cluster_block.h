@@ -14,9 +14,9 @@ class serial_cluster_block
 private:
     referenceBlock* m_ref_blocks;
 
-    int s_num_of_blocks;
-    direction* s_directions;
-	coord s_rectangle_dim;
+    static int s_num_of_blocks;
+    static direction* s_directions;
+	static coord s_rectangle_dim;
 
 
 	void fixPos(coord* pos,direction d);

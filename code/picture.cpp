@@ -14,12 +14,13 @@ picture::picture(coord picSize, pixelData** d)
     int dim = block::getDim();
     for(int i=0;i<picSize.row;i++)
     {
-        m_blocks[i] = m_blocks[0] + i*picSize.row;
+        m_blocks[i] = m_blocks[0] + i*picSize.col;
         for(int j=0;j<picSize.col;j++)
         {
             coord offset;
             offset.row = dim*i;
             offset.col = dim*j;
+            std::cout<<"block="<<"["<<i<<"]"<<"["<<j<<"]"<<" offset = "<<offset.row<<" "<<offset.col<<std::endl;
             m_blocks[i][j].setData_copy(d,offset);
         }
     }
@@ -27,12 +28,16 @@ picture::picture(coord picSize, pixelData** d)
 }
 bool picture::isValidPos(coord pos)
 {
-    std::cout<<"isValidPos = "<<pos.row<<" "<<pos.col<<std::endl;
-    if(pos.row<0 || pos.row >= m_picSize.row)
+    std::cout<<"isValidPos = "<<pos.row<<" "<<pos.col;
+    if(pos.row<0 || pos.row >= m_picSize.row) {
+        std::cout<<" FALSE" << std::endl;
         return false;
-    if(pos.col<0 || pos.col >= m_picSize.col)
+    }
+    if(pos.col<0 || pos.col >= m_picSize.col) {
+        std::cout<<" FALSE" << std::endl;
         return false;
-    std::cout<<"TRUE"<<std::endl;
+    }
+    std::cout<<" TRUE"<<std::endl;
     return true;
 }
 picture::~picture()

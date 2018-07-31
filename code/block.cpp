@@ -154,7 +154,7 @@ void block::setData_copy(pixelData** d,coord start)
     {
         for(int j=0;j<s_dim;j++)
         {
-
+            std::cout <<"c "<< start.row+i<<","<<start.col+j<<"="<<d[start.row+i][start.col+j].r <<" add=0x"<<&d[start.row+i][start.col+j].r<<std::endl;
             m_data[RIGHT][i][j].r = d[start.row+i][start.col+j].r;
             m_data[RIGHT][i][j].g = d[start.row+i][start.col+j].g;
             m_data[RIGHT][i][j].b = d[start.row+i][start.col+j].b;
