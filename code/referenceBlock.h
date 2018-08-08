@@ -15,6 +15,7 @@ public:
     pixelData** getData();
     void clean();
     void print();
+    void copyRow(int row,pixelData* buffer);
 };
 
 #endif //PROJECT_REFERENCEBLOCK_H

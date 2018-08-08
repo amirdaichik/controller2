@@ -53,6 +53,11 @@ void screen::cleanScreen()
         m_clusters[i]->clean();
     }
 }
+serial_cluster_block* screen::getCluster(int index)
+{
+    return m_clusters[index];
+}
+
 void screen::addCluster(serial_cluster_block* cluster)
 {
     coord clusterDim = cluster->getRectangleDim();
@@ -60,6 +65,30 @@ void screen::addCluster(serial_cluster_block* cluster)
     m_dim.row += clusterDim.row;
     m_clusters[m_numOfClusters++] = cluster;
 }
+bool screen::isScreenBigEnough(coord pos,coord picsFrameSize)
+{
+    coord screenSize = getDim();
+    if(screenSize.row < picsFrameSize.row + pos.row)
+        return false;
+    if(screenSize.col < picsFrameSize.col + pos.col)
+        return false;
+    return true;
+}
+void screen::clearRectangle(coord start,coord size)
+{
+    /*start.row *= -1;
+    start.col *= -1;
+    coord clusterDim = serial_cluster_block::getRectangleDim();
+    for(int i=0;i<m_numOfClusters;i++)
+    {
+        m_clusters[i]->clean(start,size);
+        start.row += clusterDim.row;
+    }*/
+    picture emptyPicture = picture(size);
+    addPicture(&emptyPicture,start);
+}
+
+
 void screen::printScreen(){
     for(int i=0;i<m_numOfClusters;i++){
         std::cout<<"Cluster #"<<i<<":"<<std::endl;

@@ -11,12 +11,17 @@ private:
     block** m_blocks;
 public:
     picture(coord dim, pixelData** d);
+    picture(coord dim);
     ~picture();
     static void test();
     block** getData();
 //	block* getBlock(int i,int j);
     coord getPicSize();
     bool isValidPos(coord pos);
+    void print();
+
+    static picture* createDummyPic(coord size);
+    static coord calcFrameSize(picture** pics,int sizeOfPics =1 );
 };
 
 

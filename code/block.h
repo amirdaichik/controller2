@@ -5,6 +5,11 @@ typedef struct pixelData{
     int r;
     int g;
     int b;
+    pixelData(){
+        r = 0;
+        g = 0;
+        b = 0;
+    }
 } pixelData;
 typedef struct coord{
     int row;

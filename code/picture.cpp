@@ -20,30 +20,38 @@ picture::picture(coord picSize, pixelData** d)
             coord offset;
             offset.row = dim*i;
             offset.col = dim*j;
-            std::cout<<"block="<<"["<<i<<"]"<<"["<<j<<"]"<<" offset = "<<offset.row<<" "<<offset.col<<std::endl;
+            //std::cout<<"block="<<"["<<i<<"]"<<"["<<j<<"]"<<" offset = "<<offset.row<<" "<<offset.col<<std::endl;
             m_blocks[i][j].setData_copy(d,offset);
         }
     }
 
 }
+picture::picture(coord picSize)
+{
+    m_picSize = picSize;
+    m_blocks = NULL;
+}
+
 bool picture::isValidPos(coord pos)
 {
-    std::cout<<"isValidPos = "<<pos.row<<" "<<pos.col;
+    //std::cout<<"isValidPos = "<<pos.row<<" "<<pos.col;
     if(pos.row<0 || pos.row >= m_picSize.row) {
-        std::cout<<" FALSE" << std::endl;
+        //std::cout<<" FALSE" << std::endl;
         return false;
     }
     if(pos.col<0 || pos.col >= m_picSize.col) {
-        std::cout<<" FALSE" << std::endl;
+        //std::cout<<" FALSE" << std::endl;
         return false;
     }
-    std::cout<<" TRUE"<<std::endl;
+    //std::cout<<" TRUE"<<std::endl;
     return true;
 }
 picture::~picture()
 {
-    delete[] m_blocks[0];
-    delete[] m_blocks;
+    if(m_blocks!=NULL) {
+        delete[] m_blocks[0];
+        delete[] m_blocks;
+    }
 }
 block** picture::getData()
 {
@@ -66,9 +74,9 @@ void picture::test(){
                 d[i][j].r = 5;
             else
                 d[i][j].r = 0;
-            //std::cout<<d[i][j].r<< " ";
+            std::cout<<d[i][j].r<< " ";
         }
-        //std::cout<<std::endl;
+        std::cout<<std::endl;
     }
     coord dataSize;
     dataSize.row = 5;
@@ -82,6 +90,31 @@ void picture::test(){
         {
             std::cout << "b[" << i <<"]["<< j<<"]"<<std::endl;
             b[i][j].printBlock();
+        }
+    }
+}
+coord picture::calcFrameSize(picture** pics,int sizeOfPics) {
+    coord picsFrameSize;
+    for(int i=0;i<sizeOfPics;i++)
+    {
+        coord curPicSize = pics[i]->getPicSize();
+        //std::cout<<"PicSize["<<i<<"]="<<curPicSize.row<<"x"<<curPicSize.col<<std::endl;
+
+        picsFrameSize.col += curPicSize.col;
+        if(curPicSize.row > picsFrameSize.row)
+            picsFrameSize.row = curPicSize.row;
+
+        //std::cout<<"frameNewSize["<<i<<"]="<<picsFrameSize.row<<"x"<<picsFrameSize.col<<std::endl;
+    }
+    return picsFrameSize;
+}
+
+void picture::print()
+{
+    for(int i=0;i<m_picSize.row;i++) {
+        for (int j = 0; j < m_picSize.col; j++) {
+            std::cout << "block [" << i << "][" << j << "]:" << std::endl;
+            m_blocks[i][j].printBlock();
         }
     }
 }

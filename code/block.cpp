@@ -27,12 +27,6 @@ block::block()
         for(int j=0;j<s_dim;j++)
         {
             m_data[i][j] = m_data[i][0] + s_dim*j;
-            for(int k=0;k<s_dim;k++)
-            {
-                m_data[i][j][k].r = 0;
-                m_data[i][j][k].g = 0;
-                m_data[i][j][k].b = 0;
-            }
         }
     }
 //	m_curData = m_data[RIGHT];
@@ -154,7 +148,7 @@ void block::setData_copy(pixelData** d,coord start)
     {
         for(int j=0;j<s_dim;j++)
         {
-            std::cout <<"c "<< start.row+i<<","<<start.col+j<<"="<<d[start.row+i][start.col+j].r <<" add=0x"<<&d[start.row+i][start.col+j].r<<std::endl;
+            //std::cout <<"c "<< start.row+i<<","<<start.col+j<<"="<<d[start.row+i][start.col+j].r <<" add=0x"<<&d[start.row+i][start.col+j].r<<std::endl;
             m_data[RIGHT][i][j].r = d[start.row+i][start.col+j].r;
             m_data[RIGHT][i][j].g = d[start.row+i][start.col+j].g;
             m_data[RIGHT][i][j].b = d[start.row+i][start.col+j].b;
@@ -191,7 +185,10 @@ void block::printBlock(direction d)
     {
         for (int j = 0; j < s_dim; j++)
         {
-            std::cout<<m_data[d][i][j].r<<" ";
+            if(m_data[d][i][j].r == 0)
+                std::cout<<"  ";
+            else
+                std::cout << m_data[d][i][j].r << " ";
         }
         std::cout<<std::endl;
     }

@@ -13,7 +13,7 @@ class serial_cluster_block
     // When the screen wants to add a picture, it will send the pointer to the picture and the offset in the picture
 private:
     referenceBlock* m_ref_blocks;
-
+	friend class referenceSerialCluster;
     static int s_num_of_blocks;
     static direction* s_directions;
 	static coord s_rectangle_dim;

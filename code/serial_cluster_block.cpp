@@ -87,8 +87,12 @@ void serial_cluster_block::setPicture(picture* pic,coord leftUpperCoordOfCluster
     block** data = pic->getData();
     for(int i=0;i<s_num_of_blocks;i++)
     {
-        if(pic->isValidPos(leftUpperCoordOfClusterRelatedToPic))
-            m_ref_blocks[i].setData(data[leftUpperCoordOfClusterRelatedToPic.row][leftUpperCoordOfClusterRelatedToPic.col].getData(s_directions[i]));
+        if(pic->isValidPos(leftUpperCoordOfClusterRelatedToPic)) {
+            if(data!=NULL)
+                m_ref_blocks[i].setData(data[leftUpperCoordOfClusterRelatedToPic.row][leftUpperCoordOfClusterRelatedToPic.col].getData(s_directions[i]));
+            else
+                m_ref_blocks[i].clean();
+        }
         if(i<s_num_of_blocks-1)
             fixPos(&leftUpperCoordOfClusterRelatedToPic,s_directions[i+1]);
     }
@@ -119,9 +123,6 @@ void serial_cluster_block::fixPos(coord* pos,direction d)
         }
     }
 }
-
-
-
 
 void serial_cluster_block::test()
 {
